@@ -27,7 +27,7 @@ define([
 
     // Use your own Google Maps API Key.
     // https://developers.google.com/maps/documentation/javascript/get-api-key
-    GoogleMapsLoader.KEY = 'NOT-A-REAL-API-KEY';
+    GoogleMapsLoader.KEY = 'AIzaSyDJPTBBBVSkVTMW5UrSZOEE4GrFuDy5ZxE';
 
     // helper function returning ImageParameters for dynamic layers
     // example:
@@ -157,7 +157,7 @@ define([
             options: {
                 id: 'restaurants',
                 opacity: 1.0,
-                visible: true,
+                visible: false,
                 outFields: ['*'],
                 mode: 0
             },
@@ -193,6 +193,30 @@ define([
                 }]
             }
         }, {
+            type: 'dynamic',
+            url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer',
+            title: i18n.viewer.operationalLayers.nwsObservations,
+            options: {
+                id: 'nwsObservations',
+                opacity: 1.0,
+                visible: true,
+                imageParameters: buildImageParameters({
+                    layerIds: [0, 2, 4, 5, 8, 10, 12, 21],
+                    layerOption: 'show'
+                })
+            },
+            identifyLayerInfos: {
+                layerIds: [2, 4, 5, 8, 12, 21]
+            },
+            layerControlLayerInfos: {
+                layerIds: [0, 2, 4, 5, 8, 9, 10, 12, 21]
+            },
+            legendLayerInfos: {
+                layerInfo: {
+                    hideLayers: [21]
+                }
+            }
+        },{
             type: 'dynamic',
             url: 'https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/PublicSafety/PublicSafetyOperationalLayers/MapServer',
             title: i18n.viewer.operationalLayers.louisvillePubSafety,
