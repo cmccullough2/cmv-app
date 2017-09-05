@@ -4,12 +4,13 @@ define([
     'esri/config',
     /*'esri/urlUtils',*/
     'esri/tasks/GeometryService',
+    'esri/layers/ArcGISDynamicMapServiceLayer',
     'esri/layers/ImageParameters',
     'gis/plugins/Google',
     'dojo/i18n!./nls/main',
     'dojo/topic',
     'dojo/sniff'
-], function (units, Extent, esriConfig, /*urlUtils,*/ GeometryService, ImageParameters, GoogleMapsLoader, i18n, topic, has) {
+], function (units, Extent, esriConfig, /*urlUtils,*/ GeometryService, ArcGISDynamicMapServiceLayer, ImageParameters, GoogleMapsLoader, i18n, topic, has) {
 
     // url to your proxy page, must be on same machine hosting you app. See proxy folder for readme.
     esriConfig.defaults.io.proxyUrl = 'proxy/proxy.ashx';
@@ -31,11 +32,11 @@ define([
 
     // helper function returning ImageParameters for dynamic layers
     // example:
-    // imageParameters: buildImageParameters({
-    //     layerIds: [0],
-    //     layerOption: 'show'
-    // })
-    function buildImageParameters (config) {
+    imageParameters: buildImageParameters({
+        layerIds: [0, 1, 2],
+        layerOption: 'show'
+    })
+     function buildImageParameters (config) {
         config = config || {};
         var ip = new ImageParameters();
         //image parameters for dynamic services, set to png32 for higher quality exports
@@ -45,8 +46,10 @@ define([
                 ip[key] = config[key];
             }
         }
+        
         return ip;
     }
+   
 
     //some example topics for listening to menu item clicks
     //these topics publish a simple message to the growler
@@ -674,9 +677,7 @@ define([
                     startup: function () {
                         //var layers = [0,1,2,3,4,5,6,7];
                         var layer = this.map.getLayer('nwsObservations'); // put your layer ID here
-                        layer.setDefinitionExpression("status = 'action'");
-                        //layer.setDefinitionExpression("status = 'minor'");
-                        //layer.setDefinitionExpression("status = 'major'");
+                        layer.setDefinitionExpression("status='action' or status='minor' or status='moderate' or status='major'");
                     }
                 }
             },
