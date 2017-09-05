@@ -33,7 +33,7 @@ define([
     // helper function returning ImageParameters for dynamic layers
     // example:
     imageParameters: buildImageParameters({
-        layerIds: [nwsObservations],
+        layerIds: [0, 1, 2, 3],
         layerOption: 'show'
     })
      function buildImageParameters (config) {
@@ -155,48 +155,26 @@ define([
         // 3 'mode' options: MODE_SNAPSHOT = 0, MODE_ONDEMAND = 1, MODE_SELECTION = 2
         operationalLayers: [
         {
-            type: 'feature',
-            url: 'https://services1.arcgis.com/6bXbLtkf4y11TosO/arcgis/rest/services/Restaurants/FeatureServer/0',
-            title: i18n.viewer.operationalLayers.restaurants,
+            type: 'dynamic',
+            url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer',
+            title: i18n.viewer.operationalLayers.nwsStreamGuages,
             options: {
-                id: 'restaurants',
+                id: 'nwsStreamGuages',
                 opacity: 1.0,
                 visible: false,
-                outFields: ['*'],
-                mode: 0
-            },
-            editorLayerInfos: {
-                disableGeometryUpdate: false
-            },
+                setDefinitionExpression: "status='action' or status='minor' or status='moderate' or status='major'",
+                imageParameters: buildImageParameters()
+                },            
             legendLayerInfos: {
-                exclude: false,
-                layerInfo: {
-                    title: i18n.viewer.operationalLayers.restaurants
-                }
+                exclude: true
             },
             layerControlLayerInfos: {
-                layerGroup: 'Grouped Feature Layers'
+                swipe: true,
+                metadataUrl: true,
+                layerGroup: 'Weather Layers'
             }
-        }, {
-            type: 'feature',
-            url: 'https://sampleserver6.arcgisonline.com/ArcGIS/rest/services/SF311/FeatureServer/0',
-            title: i18n.viewer.operationalLayers.sf311Incidents,
-            options: {
-                id: 'sf311Incidents',
-                opacity: 1.0,
-                visible: false,
-                outFields: ['req_type', 'req_date', 'req_time', 'address', 'district'],
-                mode: 0
-            },
-            layerControlLayerInfos: {
-                layerGroup: 'Grouped Feature Layers',
-                menu: [{
-                    topic: 'hello',
-                    label: 'Say Hello Custom',
-                    iconClass: 'fa fa-smile-o'
-                }]
-            }
-        },
+        }, 
+
         {
             type: 'feature',
             url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0',
@@ -226,14 +204,162 @@ define([
                 //outFields: ['*'],
                 imageParameters: buildImageParameters({
                     layerIds: [1],
-                layerOption: 'show'
+                    layerOption: 'show'
                 })
             },
             layerControlLayerInfos: {
                 layerGroup: 'Weather Layers'
             }
         }, 
-
+         {   title: 'NOAA Tropical Storm/Hurricane Tracks',
+            type: 'dynamic',
+            url: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/wwa_meteocean_tropicalcyclones_trackintensityfcsts_time/MapServer',
+            options: {
+                id: 'noaaHurricane',
+                opacity: .75,
+                visible: true,
+                imageParameters: buildImageParameters({ })
+            },
+             identifyLayerInfos: {
+                layerIds: []
+            },
+            layerControlLayerInfos: {
+                metadataUrl: true,
+                expanded: false,
+                layerGroup: 'Weather Layers'
+            }
+        },
+        {   title: 'NOAA Surface Weather',
+            type: 'dynamic',
+            url: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/obs_meteocean_insitu_sfc_time/MapServer',
+            options: {
+                id: 'surfaceWeather',
+                opacity: .75,
+                visible: false,
+                imageParameters: buildImageParameters({ })
+            },
+             identifyLayerInfos: {
+                layerIds: []
+            },
+            layerControlLayerInfos: {
+                metadataUrl: true,
+                expanded: false,
+                layerGroup: 'Weather Layers'
+            }
+        },
+        {   title: 'NOAA Nexrad Radar',
+            type: 'dynamic',
+            url: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer',
+            options: {
+                id: 'nexradRadar',
+                opacity: 0.60,
+                visible: false,
+                imageParameters: buildImageParameters({ })
+            },
+            layerControlLayerInfos: {
+                swipe: true,
+                metadataUrl: true,
+                expanded: false,
+                layerGroup: 'Weather Layers'
+            }
+        },
+        {   title: 'NOAA 15-min Lightning Strikes',
+            type: 'dynamic',
+            url: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/sat_meteo_emulated_imagery_lightningstrikedensity_goes_time/MapServer',
+            options: {
+                id: 'lightning',
+                opacity: .75,
+                visible: false,
+                imageParameters: buildImageParameters({ })
+            },
+           layerControlLayerInfos: {
+                swipe: true,
+                metadataUrl: true,
+                expanded: false,
+                layerGroup: 'Weather Layers'
+            }
+        },
+        {   title: 'NOAA Aviation Weather Forecasts (TAFS)',
+            type: 'dynamic',
+            url: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/forecast_meteoceanhydro_pts_zones_geolinks/MapServer',
+            options: {
+                id: 'tafs',
+                opacity: 1.0,
+                visible: false,
+                imageParameters: buildImageParameters({
+                    layerIds: [7],
+                    layerOption: 'show'
+                })
+            },
+            identifyLayerInfos: {
+                layerIds: [7]
+            },
+            layerControlLayerInfos: {
+                swipe: true,
+                metadataUrl: true,
+                expanded: false,
+                layerGroup: 'Weather Layers'
+            },
+            legendLayerInfos: {
+                layerInfo: {
+                    hideLayers: [0,1,2,3,4,5,6,8,9,10,11,12,13,14,15,16]
+                }
+            }
+        },
+        {   title: 'NOAA Smoke Concentration',
+            type: 'image',
+            url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/ndgd_smoke_sfc_1hr_avg_time/ImageServer',
+            options: {
+                id: 'smokeConcentration',
+                opacity: 0.75,
+                visible: false,
+                imageParameters: buildImageParameters({ })
+            },
+            identifyLayerInfos: {
+                layerIds: ['*']
+            },
+            layerControlLayerInfos: {
+                swipe: true,
+                metadataUrl: true,
+                expanded: false,
+                layerGroup: 'Weather Layers'
+            }
+        },
+        {   title: 'Vertical Smoke Concentration',
+            type: 'image',
+            url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/ndgd_smoke_vert_1hr_avg_time/ImageServer',
+            options: {
+                id: 'vertsmokeConcentration',
+                opacity: 1.0,
+                visible: false,
+                imageParameters: buildImageParameters({ })
+            },
+            identifyLayerInfos: {
+                layerIds: ['*']
+            },
+            layerControlLayerInfos: {
+                swipe: true,
+                metadataUrl: true,
+                expanded: false,
+                layerGroup: 'Weather Layers'
+            }
+        },
+        {   title: 'NOAA Global Cloud Cover',
+            type: 'dynamic',
+            url: 'https://new.nowcoast.noaa.gov/arcgis/rest/services/nowcoast/sat_meteo_imagery_time/MapServer',
+            options: {
+                id: 'globalCloud',
+                opacity: .75,
+                visible: false,
+                imageParameters: buildImageParameters({ })
+            },
+           layerControlLayerInfos: {
+                swipe: true,
+                metadataUrl: true,
+                expanded: false,
+                layerGroup: 'Weather Layers'
+            }
+        },
         {
             type: 'dynamic',
             url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer',
@@ -676,7 +802,6 @@ define([
                 options: {
                     map: true,
                     startup: function () {
-                        //var layers = [0,1,2,3,4,5,6,7];
                         var layer = this.map.getLayer('nwsObservations'); // put your layer ID here
                         layer.setDefinitionExpression("status='action' or status='minor' or status='moderate' or status='major'");
                     }

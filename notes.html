@@ -37,8 +37,26 @@ setDefExpr: {
 		}
 	}
 },
-
-
+//Image parameters
+ imageParameters: buildImageParameters({
+        layerIds: [0, 1, 2, 3],
+        layerOption: 'show'
+    })
+     function buildImageParameters (config) {
+        config = config || {};
+        var ip = new ImageParameters();
+        //image parameters for dynamic services, set to png32 for higher quality exports
+        ip.format = 'png32';
+        for (var key in config) {
+            if (config.hasOwnProperty(key)) {
+                ip[key] = config[key];
+            }
+        }
+        
+        return ip;
+    }
+	
+	
 https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1/query?f=json&where=1%3D1&returnGeometry=true&spatialRel=esriSpatialRelIntersects&outFields=*&outSR=102100
 
 https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0?f=json

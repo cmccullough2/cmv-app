@@ -27,7 +27,8 @@ define({
                 louisvillePubSafety: 'Louisville Public Safety',
                 restaurants: 'Restaurants',
                 sf311Incidents: 'San Francisco 311 Incidents',
-                nwsObservations: 'NWS Stream Guage Observations',
+                nwsStreamGuages: 'NWS Stream Guages',
+                nwsObservations: 'NWS Stream Guage Current Obs',
                 nwsObservations48: 'NWS Stream Guage 48 Hour Obs'
             },
             titles: {
