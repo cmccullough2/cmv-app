@@ -33,7 +33,7 @@ define([
     // helper function returning ImageParameters for dynamic layers
     // example:
     imageParameters: buildImageParameters({
-        layerIds: [0, 1, 2],
+        layerIds: [nwsObservations],
         layerOption: 'show'
     })
      function buildImageParameters (config) {
@@ -233,6 +233,7 @@ define([
                 layerGroup: 'Weather Layers'
             }
         }, 
+
         {
             type: 'dynamic',
             url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer',
