@@ -27,7 +27,7 @@ define([
 
     // Use your own Google Maps API Key.
     // https://developers.google.com/maps/documentation/javascript/get-api-key
-    GoogleMapsLoader.KEY = 'AIzaSyDJPTBBBVSkVTMW5UrSZOEE4GrFuDy5ZxE';
+    GoogleMapsLoader.KEY = 'NOT-A-REAL-API-KEY';
 
     // helper function returning ImageParameters for dynamic layers
     // example:
@@ -150,7 +150,8 @@ define([
         // operationalLayers: Array of Layers to load on top of the basemap: valid 'type' options: 'dynamic', 'tiled', 'feature'.
         // The 'options' object is passed as the layers options for constructor. Title will be used in the legend only. id's must be unique and have no spaces.
         // 3 'mode' options: MODE_SNAPSHOT = 0, MODE_ONDEMAND = 1, MODE_SELECTION = 2
-        operationalLayers: [{
+        operationalLayers: [
+        {
             type: 'feature',
             url: 'https://services1.arcgis.com/6bXbLtkf4y11TosO/arcgis/rest/services/Restaurants/FeatureServer/0',
             title: i18n.viewer.operationalLayers.restaurants,
@@ -192,62 +193,51 @@ define([
                     iconClass: 'fa fa-smile-o'
                 }]
             }
-        }, {
-            type: 'dynamic',
-            url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer',
+        },
+        {
+            type: 'feature',
+            url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0',
             title: i18n.viewer.operationalLayers.nwsObservations,
             options: {
                 id: 'nwsObservations',
                 opacity: 1.0,
                 visible: true,
+                outFields: ['*'],
                 imageParameters: buildImageParameters({
-                    layerIds: [0, 2, 4, 5, 8, 10, 12, 21],
-                    layerOption: 'show'
+                    layerIds: [0],
+                layerOption: 'show'
                 })
             },
-            identifyLayerInfos: {
-                layerIds: [2, 4, 5, 8, 12, 21]
-            },
             layerControlLayerInfos: {
-                layerIds: [0, 2, 4, 5, 8, 9, 10, 12, 21]
-            },
-            legendLayerInfos: {
-                layerInfo: {
-                    hideLayers: [21]
-                }
+                layerGroup: 'Weather Layers'
             }
-        },{
-            type: 'dynamic',
-            url: 'https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/PublicSafety/PublicSafetyOperationalLayers/MapServer',
-            title: i18n.viewer.operationalLayers.louisvillePubSafety,
+        }, 
+        {
+            type: 'feature',
+            url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1',
+            title: i18n.viewer.operationalLayers.nwsObservations48,
             options: {
-                id: 'louisvillePubSafety',
+                id: 'nwsObservations48',
                 opacity: 1.0,
-                visible: true,
+                visible: false,
+                //outFields: ['*'],
                 imageParameters: buildImageParameters({
-                    layerIds: [0, 2, 4, 5, 8, 10, 12, 21],
-                    layerOption: 'show'
+                    layerIds: [1],
+                layerOption: 'show'
                 })
             },
-            identifyLayerInfos: {
-                layerIds: [2, 4, 5, 8, 12, 21]
-            },
             layerControlLayerInfos: {
-                layerIds: [0, 2, 4, 5, 8, 9, 10, 12, 21]
-            },
-            legendLayerInfos: {
-                layerInfo: {
-                    hideLayers: [21]
-                }
+                layerGroup: 'Weather Layers'
             }
-        }, {
+        }, 
+        {
             type: 'dynamic',
             url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/MapServer',
             title: i18n.viewer.operationalLayers.damageAssessment,
             options: {
                 id: 'damageAssessment',
                 opacity: 1.0,
-                visible: true,
+                visible: false,
                 imageParameters: buildImageParameters()
             },
             legendLayerInfos: {
@@ -265,7 +255,8 @@ define([
                     iconClass: 'fa fa-smile-o'
                 }]
             }
-        }, {
+        }, 
+        {
             type: 'dynamic',
             url: 'https://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer',
             title: i18n.viewer.operationalLayers.cities,
@@ -410,7 +401,7 @@ define([
                 }
             },
             locateButton: {
-                include: true,
+                include: false,
                 id: 'locateButton',
                 type: 'ui',
                 path: 'gis/dijit/LocateButton',
@@ -673,6 +664,22 @@ define([
                     style: has('phone') ? null : 'margin-left: 30px;'
                 }
             },
+            setDefExpr: {
+                include: true,
+                id: 'setDefExpr',
+                type: 'invisible',
+                path: 'dijit/_WidgetBase',
+                options: {
+                    map: true,
+                    startup: function () {
+                        //var layers = [0,1,2,3,4,5,6,7];
+                        var layer = this.map.getLayer('nwsObservations'); // put your layer ID here
+                        layer.setDefinitionExpression("status = 'action'");
+                        //layer.setDefinitionExpression("status = 'minor'");
+                        //layer.setDefinitionExpression("status = 'major'");
+                    }
+                }
+            },
             help: {
                 include: has('phone') ? false : true,
                 id: 'help',
@@ -688,7 +695,7 @@ define([
                 },
                 options: {}
             }
-
+        //end of widgets
         }
     };
 });

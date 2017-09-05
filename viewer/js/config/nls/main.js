@@ -26,7 +26,9 @@ define({
                 damageAssessment: 'Damage Assessment',
                 louisvillePubSafety: 'Louisville Public Safety',
                 restaurants: 'Restaurants',
-                sf311Incidents: 'San Francisco 311 Incidents'
+                sf311Incidents: 'San Francisco 311 Incidents',
+                nwsObservations: 'NWS Stream Guage Observations',
+                nwsObservations48: 'NWS Stream Guage 48 Hour Obs'
             },
             titles: {
                 header: 'Configurable Map Viewer',

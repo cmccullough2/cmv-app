@@ -1,0 +1,45 @@
+
+Notes
+Git Cheat sheet
+https://education.github.com/git-cheat-sheet-education.pdf
+Need to display  NWS Stream guages; action, minor, moderate, major. 
+The feature layer displays the correct definition expression.  I need to display the same definition expression for the remaining stream gauge data services - at least 48 & 72 hour frames. 
+Operational Layers:
+ {
+	type: 'feature',
+	url: 'https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0',
+	title: i18n.viewer.operationalLayers.nwsObservations,
+	options: {
+		id: 'nwsObservations',
+		opacity: 1.0,
+		visible: true,
+		outFields: ['*'],
+		imageParameters: buildImageParameters({
+			layerIds: [0],
+		layerOption: 'show'
+		})
+	},
+	layerControlLayerInfos: {
+		layerGroup: 'Weather Layers'
+	}
+}, 
+Widgets: 
+setDefExpr: {
+	include: true,
+	id: 'setDefExpr',
+	type: 'invisible',
+	path: 'dijit/_WidgetBase',
+	options: {
+		map: true,
+		 startup: function () {
+			var layer = this.map.getLayer('nwsObservations'); // put your layer ID here
+			layer.setDefinitionExpression("status = 'action'");
+		}
+	}
+},
+
+
+https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/1/query?f=json&where=1%3D1&returnGeometry=true&spatialRel=esriSpatialRelIntersects&outFields=*&outSR=102100
+
+https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/ahps_riv_gauges/MapServer/0?f=json
+{"currentVersion":10.5,"id":0,"name":"Observed River Stages","type":"Feature Layer","description":"","geometryType":"esriGeometryPoint","sourceSpatialReference":{"wkid":4759,"latestWkid":4759},"copyrightText":"","parentLayer":null,"subLayers":[],"minScale":0,"maxScale":0,"drawingInfo":{"renderer":{"type":"uniqueValue","field1":"status","field2":null,"field3":null,"defaultSymbol":null,"defaultLabel":null,"uniqueValueInfos":[{"symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[204,51,255,255],"size":6,"angle":0,"xoffset":0,"yoffset":0,"outline":{"color":[0,0,0,255],"width":1}},"value":"major","label":"Major Flooding","description":""},{"symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[255,0,0,255],"size":6,"angle":0,"xoffset":0,"yoffset":0,"outline":{"color":[0,0,0,255],"width":1}},"value":"moderate","label":"Moderate Flooding","description":""},{"symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[255,153,0,255],"size":6,"angle":0,"xoffset":0,"yoffset":0,"outline":{"color":[0,0,0,255],"width":1}},"value":"minor","label":"Minor Flooding","description":""},{"symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[255,255,0,255],"size":6,"angle":0,"xoffset":0,"yoffset":0,"outline":{"color":[0,0,0,255],"width":1}},"value":"action","label":"Near Flood","description":""},{"symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[0,255,0,255],"size":6,"angle":0,"xoffset":0,"yoffset":0,"outline":{"color":[0,0,0,255],"width":1}},"value":"no_flooding","label":"No Flooding","description":""},{"symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[114,175,233,255],"size":6,"angle":0,"xoffset":0,"yoffset":0,"outline":{"color":[0,0,0,255],"width":1}},"value":"not_defined","label":"Flood Category Not Defined","description":""},{"symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[144,99,32,255],"size":6,"angle":0,"xoffset":0,"yoffset":0,"outline":{"color":[0,0,0,255],"width":1}},"value":"low_threshold","label":"At or Below Low Water Threshold","description":""},{"symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[189,194,187,255],"size":6,"angle":0,"xoffset":0,"yoffset":0,"outline":{"color":[0,0,0,255],"width":1}},"value":"obs_not_current","label":"Observations Are Not Current","description":""},{"symbol":{"type":"esriSMS","style":"esriSMSCircle","color":[102,102,102,255],"size":6,"angle":0,"xoffset":0,"yoffset":0,"outline":{"color":[0,0,0,255],"width":1}},"value":"out_of_service","label":"Out of Service","description":""}],"fieldDelimiter":","},"transparency":0,"labelingInfo":null},"defaultVisibility":true,"extent":{"xmin":-168.09138899980246,"ymin":18.08333300021792,"xmax":-65.88527799957996,"ymax":70.49583299979315,"spatialReference":{"wkid":4759,"latestWkid":4759}},"hasAttachments":false,"htmlPopupType":"esriServerHTMLPopupTypeAsHTMLText","displayField":"gaugelid","typeIdField":null,"fields":[{"name":"objectid","type":"esriFieldTypeOID","alias":"objectid","domain":null},{"name":"gaugelid","type":"esriFieldTypeString","alias":"gaugelid","length":5,"domain":null},{"name":"location","type":"esriFieldTypeString","alias":"location","length":90,"domain":null},{"name":"latitude","type":"esriFieldTypeDouble","alias":"latitude","domain":null},{"name":"longitude","type":"esriFieldTypeDouble","alias":"longitude","domain":null},{"name":"waterbody","type":"esriFieldTypeString","alias":"waterbody","length":255,"domain":null},{"name":"state","type":"esriFieldTypeString","alias":"state","length":2,"domain":null},{"name":"observed","type":"esriFieldTypeString","alias":"observed","length":24,"domain":null},{"name":"obstime","type":"esriFieldTypeString","alias":"obstime","length":26,"domain":null},{"name":"units","type":"esriFieldTypeString","alias":"units","length":5,"domain":null},{"name":"action","type":"esriFieldTypeString","alias":"action","length":24,"domain":null},{"name":"flood","type":"esriFieldTypeString","alias":"flood","length":24,"domain":null},{"name":"moderate","type":"esriFieldTypeString","alias":"moderate","length":24,"domain":null},{"name":"major","type":"esriFieldTypeString","alias":"major","length":24,"domain":null},{"name":"lowthresh","type":"esriFieldTypeString","alias":"lowthresh","length":24,"domain":null},{"name":"lowthreshu","type":"esriFieldTypeString","alias":"lowthreshu","length":5,"domain":null},{"name":"wfo","type":"esriFieldTypeString","alias":"wfo","length":5,"domain":null},{"name":"hdatum","type":"esriFieldTypeString","alias":"hdatum","length":30,"domain":null},{"name":"pedts","type":"esriFieldTypeString","alias":"pedts","length":5,"domain":null},{"name":"secvalue","type":"esriFieldTypeString","alias":"secvalue","length":24,"domain":null},{"name":"secunit","type":"esriFieldTypeString","alias":"secunit","length":5,"domain":null},{"name":"url","type":"esriFieldTypeString","alias":"url","length":231,"domain":null},{"name":"idp_source","type":"esriFieldTypeString","alias":"idp_source","length":50,"domain":null},{"name":"idp_subset","type":"esriFieldTypeString","alias":"idp_subset","length":50,"domain":null},{"name":"shape","type":"esriFieldTypeGeometry","alias":"shape","domain":null},{"name":"status","type":"esriFieldTypeString","alias":"status","length":25,"domain":null},{"name":"idp_filedate","type":"esriFieldTypeDate","alias":"idp_filedate","length":8,"domain":null},{"name":"idp_ingestdate","type":"esriFieldTypeDate","alias":"idp_ingestdate","length":8,"domain":null},{"name":"idp_current_forecast","type":"esriFieldTypeInteger","alias":"idp_current_forecast","domain":null},{"name":"idp_time_series","type":"esriFieldTypeInteger","alias":"idp_time_series","domain":null},{"name":"idp_issueddate","type":"esriFieldTypeDate","alias":"idp_issueddate","length":8,"domain":null},{"name":"idp_validtime","type":"esriFieldTypeDate","alias":"idp_validtime","length":8,"domain":null},{"name":"idp_validendtime","type":"esriFieldTypeDate","alias":"idp_validendtime","length":8,"domain":null},{"name":"idp_fcst_hour","type":"esriFieldTypeInteger","alias":"idp_fcst_hour","domain":null},{"name":"forecast","type":"esriFieldTypeString","alias":"forecast","length":24,"domain":null}],"indexes":[{"name":"r40_sde_rowid_uk","fields":"objectid","isAscending":true,"isUnique":true,"description":""},{"name":"a31_ix1","fields":"shape","isAscending":true,"isUnique":true,"description":""}],"relationships":[],"canModifyLayer":false,"canScaleSymbols":false,"hasLabels":false,"capabilities":"Map,Query,Data","maxRecordCount":8000,"supportsStatistics":true,"supportsAdvancedQueries":true,"supportedQueryFormats":"JSON, AMF, geoJSON","ownershipBasedAccessControlForFeatures":{"allowOthersToQuery":true},"useStandardizedQueries":true,"advancedQueryCapabilities":{"useStandardizedQueries":true,"supportsStatistics":true,"supportsOrderBy":true,"supportsDistinct":true,"supportsPagination":true,"supportsTrueCurve":true,"supportsReturningQueryExtent":true,"supportsQueryWithDistance":true,"supportsSqlExpression":true},"supportsDatumTransformation":true,"dateFieldsTimeReference":null}
